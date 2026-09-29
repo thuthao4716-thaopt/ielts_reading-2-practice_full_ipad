@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1024, initial-scale=1.0, user-scalable=yes">
-  <title>IELTS Reading Master - Bản iPad & PC 18 Activities</title>
+  <title>IELTS Reading Master - Tối Ưu Cảm Ứng iPad & 18 Activities</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome CDN -->
@@ -23,7 +23,7 @@
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
     }
-    /* Các lớp highlight bảo đảm chữ sắc nét */
+    /* Các lớp highlight trong suốt sắc nét */
     .hl-yellow {
       background-color: rgba(254, 240, 138, 0.8) !important;
       border-radius: 2px;
@@ -44,6 +44,11 @@
       border-radius: 2px;
       padding: 1px 2px;
     }
+    /* Cho phép bôi đen văn bản mượt mà trên Safari iOS */
+    .select-text {
+      -webkit-user-select: text !important;
+      user-select: text !important;
+    }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col select-auto">
@@ -58,7 +63,7 @@
         <span class="bg-white text-indigo-700 px-2 py-0.5 rounded-md font-extrabold text-xs uppercase tracking-wide">IELTS</span>
         <div>
           <h1 class="text-sm md:text-base font-bold leading-tight line-clamp-1" id="top-title">IELTS Reading - Round 2</h1>
-          <p class="text-[11px] text-indigo-200" id="top-subtitle">Trọn bộ 18 Activities - 9 dạng bài</p>
+          <p class="text-[11px] text-indigo-200" id="top-subtitle">18 Activities - Tối Ưu Cảm Ứng iPad & Phát Âm AmE</p>
         </div>
       </div>
       <div class="flex items-center space-x-2 text-xs">
@@ -72,7 +77,7 @@
     </div>
   </header>
 
-  <!-- Container ép 2 cột cố định trên iPad lẫn PC -->
+  <!-- Container ép 2 cột cố định cho iPad & PC -->
   <div class="max-w-[1400px] mx-auto px-3 py-3 flex-1 w-full grid grid-cols-12 gap-3 md:gap-4 relative">
     
     <!-- Sidebar Menu Trượt (Drawer) -->
@@ -87,14 +92,14 @@
         </button>
       </div>
       <div id="activity-menu" class="flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar text-xs">
-        <!-- Render 18 bài qua JS -->
+        <!-- Render 18 bài bằng JS -->
       </div>
     </aside>
 
     <!-- Overlay khi mở Sidebar -->
     <div id="sidebar-overlay" onclick="toggleSidebar()" class="hidden fixed inset-0 bg-black/40 z-40 backdrop-blur-[1px]"></div>
 
-    <!-- CỘT TRÁI: BÀI ĐỌC (Chiếm 7/12 cột cố định trên iPad & PC) -->
+    <!-- CỘT TRÁI: BÀI ĐỌC (7/12 cột) -->
     <section id="left-column-section" class="col-span-7 bg-white rounded-xl shadow-sm border border-slate-200 p-3.5 flex flex-col h-[calc(100dvh-75px)] sticky top-[65px] relative">
       
       <!-- Toolbar Cột Trái -->
@@ -125,7 +130,25 @@
         </div>
       </div>
 
-      <!-- Tooltip nổi Highlight cho Cột Trái -->
+      <!-- THANH BÚT HIGHLIGHT CỐ ĐỊNH CHO CỘT BÀI ĐỌC (TIỆN CHO CHẠM TAY TRÊN IPAD) -->
+      <div class="px-2.5 py-1.5 mb-2 bg-indigo-50/60 border border-indigo-100 rounded-lg flex items-center justify-between gap-1 text-xs">
+        <div class="flex items-center gap-1.5">
+          <span class="text-indigo-900 font-semibold flex items-center gap-1 text-[11px]">
+            <i class="fa-solid fa-highlighter text-amber-500"></i> Bút bài đọc:
+          </span>
+          <div class="flex items-center gap-1.5">
+            <button onclick="applyHighlight('hl-yellow')" class="w-5 h-5 rounded-full bg-yellow-300 hover:scale-110 active:scale-95 border border-slate-300 shadow-sm transition" title="Tô Vàng"></button>
+            <button onclick="applyHighlight('hl-green')" class="w-5 h-5 rounded-full bg-emerald-300 hover:scale-110 active:scale-95 border border-slate-300 shadow-sm transition" title="Tô Xanh lá"></button>
+            <button onclick="applyHighlight('hl-cyan')" class="w-5 h-5 rounded-full bg-sky-300 hover:scale-110 active:scale-95 border border-slate-300 shadow-sm transition" title="Tô Xanh ngọc"></button>
+            <button onclick="applyHighlight('hl-pink')" class="w-5 h-5 rounded-full bg-pink-300 hover:scale-110 active:scale-95 border border-slate-300 shadow-sm transition" title="Tô Hồng"></button>
+          </div>
+        </div>
+        <button onclick="removeSelectedHighlight()" class="px-2 py-0.5 bg-white border border-slate-300 hover:bg-slate-50 active:bg-slate-100 rounded text-slate-700 font-medium text-[11px] shadow-sm transition">
+          Bỏ tô
+        </button>
+      </div>
+
+      <!-- Tooltip nổi nhỏ khi bôi đen -->
       <div id="left-hl-toolbar" class="hidden absolute z-50 bg-slate-900 text-white px-2 py-1 rounded-lg shadow-xl flex items-center gap-1.5 border border-slate-700 text-xs transition-opacity duration-200">
         <span class="text-[10px] text-slate-300 font-medium">Tô:</span>
         <button onclick="applyHighlight('hl-yellow')" class="w-4 h-4 rounded-full bg-yellow-300 hover:scale-110 border border-white/50 transition"></button>
@@ -144,7 +167,7 @@
       </div>
     </section>
 
-    <!-- CỘT PHẢI: CÂU HỎI & PARAPHRASE (Chiếm 5/12 cột cố định trên iPad & PC) -->
+    <!-- CỘT PHẢI: CÂU HỎI & PARAPHRASE / TỪ VỰNG (5/12 cột) -->
     <section id="right-column-section" class="col-span-5 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-[calc(100dvh-75px)] sticky top-[65px] overflow-hidden relative">
       
       <!-- Tab Headers -->
@@ -157,24 +180,24 @@
         </button>
       </div>
 
-      <!-- THANH CÔNG CỤ BÚT HIGHLIGHT CỐ ĐỊNH CỘT PHẢI -->
+      <!-- THANH CÔNG CỤ BÚT HIGHLIGHT CỐ ĐỊNH CỘT PHẢI (CÂU HỎI) -->
       <div class="px-2.5 py-1.5 bg-slate-100 border-b border-slate-200 flex items-center justify-between gap-1 text-xs">
         <div class="flex items-center gap-1.5">
           <span class="text-slate-600 font-semibold flex items-center gap-1 text-[11px]">
-            <i class="fa-solid fa-highlighter text-amber-500"></i> Bút tô:
+            <i class="fa-solid fa-highlighter text-amber-500"></i> Bút câu hỏi:
           </span>
-          <div class="flex items-center gap-1">
-            <button onclick="applyHighlight('hl-yellow')" class="w-4 h-4 rounded-full bg-yellow-300 hover:scale-110 border border-slate-300 shadow-sm transition" title="Tô Vàng"></button>
-            <button onclick="applyHighlight('hl-green')" class="w-4 h-4 rounded-full bg-emerald-300 hover:scale-110 border border-slate-300 shadow-sm transition" title="Tô Xanh lá"></button>
-            <button onclick="applyHighlight('hl-cyan')" class="w-4 h-4 rounded-full bg-sky-300 hover:scale-110 border border-slate-300 shadow-sm transition" title="Tô Xanh ngọc"></button>
-            <button onclick="applyHighlight('hl-pink')" class="w-4 h-4 rounded-full bg-pink-300 hover:scale-110 border border-slate-300 shadow-sm transition" title="Tô Hồng"></button>
+          <div class="flex items-center gap-1.5">
+            <button onclick="applyHighlight('hl-yellow')" class="w-5 h-5 rounded-full bg-yellow-300 hover:scale-110 active:scale-95 border border-slate-300 shadow-sm transition" title="Tô Vàng"></button>
+            <button onclick="applyHighlight('hl-green')" class="w-5 h-5 rounded-full bg-emerald-300 hover:scale-110 active:scale-95 border border-slate-300 shadow-sm transition" title="Tô Xanh lá"></button>
+            <button onclick="applyHighlight('hl-cyan')" class="w-5 h-5 rounded-full bg-sky-300 hover:scale-110 active:scale-95 border border-slate-300 shadow-sm transition" title="Tô Xanh ngọc"></button>
+            <button onclick="applyHighlight('hl-pink')" class="w-5 h-5 rounded-full bg-pink-300 hover:scale-110 active:scale-95 border border-slate-300 shadow-sm transition" title="Tô Hồng"></button>
           </div>
         </div>
         <div class="flex items-center gap-1">
-          <button onclick="removeSelectedHighlight()" class="px-1.5 py-0.5 bg-white border border-slate-300 hover:bg-slate-50 rounded text-slate-600 font-medium text-[10px] shadow-sm transition">
+          <button onclick="removeSelectedHighlight()" class="px-1.5 py-0.5 bg-white border border-slate-300 hover:bg-slate-50 active:bg-slate-100 rounded text-slate-600 font-medium text-[10px] shadow-sm transition">
             Bỏ tô
           </button>
-          <button onclick="clearRightHighlights()" class="px-1.5 py-0.5 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 rounded font-medium text-[10px] shadow-sm transition">
+          <button onclick="clearRightHighlights()" class="px-1.5 py-0.5 bg-rose-50 border border-rose-200 hover:bg-rose-100 active:bg-rose-200 text-rose-700 rounded font-medium text-[10px] shadow-sm transition">
             Xóa hết
           </button>
         </div>
@@ -203,10 +226,10 @@
             <!-- Render câu hỏi qua JS -->
           </div>
           <div class="flex items-center gap-2 pt-1 sticky bottom-0 bg-white py-2">
-            <button type="submit" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow transition text-xs flex items-center justify-center gap-1.5">
+            <button type="submit" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-bold rounded-lg shadow transition text-xs flex items-center justify-center gap-1.5">
               <i class="fa-solid fa-paper-plane"></i> Nộp Bài & Xem Giải Thích
             </button>
-            <button type="button" onclick="resetCurrentQuiz()" class="py-2 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg text-xs transition">
+            <button type="button" onclick="resetCurrentQuiz()" class="py-2 px-2.5 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 font-semibold rounded-lg text-xs transition">
               <i class="fa-solid fa-rotate-right"></i>
             </button>
           </div>
@@ -219,7 +242,7 @@
           <!-- Render bảng Paraphrase -->
         </div>
         <div id="vocab-content" class="space-y-2.5 pt-2 border-t border-slate-200">
-          <!-- Render từ vựng -->
+          <!-- Render từ vựng với nút loa phát âm AmE -->
         </div>
       </div>
 
@@ -227,7 +250,7 @@
 
   </div>
 
-  <!-- SCRIPT DỮ LIỆU ĐẦY ĐỦ 18 ACTIVITIES & LOGIC -->
+  <!-- SCRIPT DỮ LIỆU ĐẦY ĐỦ 18 ACTIVITIES & LOGIC CẢM ỨNG IPAD CHUYÊN SÂU -->
   <script>
     const ACTIVITIES = [
       {
@@ -236,13 +259,13 @@
         title: "Activity 1: AMAZING HOMES",
         instruction: "Complete the sentences. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
         passage: [
-          { en: "Most people live in a house or a flat. When they go on holiday they stay in a hotel or a guest house. But some places where you can live or stay are a bit different.", vi: "Hầu hết mọi người sống trong một ngôi nhà hoặc căn hộ. Khi đi nghỉ, họ thường ở khách sạn hoặc nhà nghỉ. Nhưng một số nơi mà bạn có thể sinh sống hoặc lưu trú lại có phần khác biệt." },
-          { en: "A One unusual place to live is a houseboat. Amsterdam in Holland is famous for its houseboats - there are about 2,500 of them. They have everything that normal houses have: a living room, bedroom, kitchen, bathroom and even sometimes a terrace on the roof. They are cheaper than houses and people who live on houseboats enjoy being close to nature. Some houseboats can be moved to other parts of the river, while others are permanently in one place.", vi: "A Một nơi ở khác thường là nhà thuyền. Amsterdam ở Hà Lan nổi tiếng với những ngôi nhà thuyền – có khoảng 2.500 ngôi nhà như vậy. Chúng có mọi thứ mà những ngôi nhà bình thường có: phòng khách, phòng ngủ, nhà bếp, phòng tắm và đôi khi thậm chí còn có cả sân thượng trên mái. Nhà thuyền rẻ hơn nhà ở thông thường và những người sống trên đó thích cảm giác được gần gũi với thiên nhiên..." },
-          { en: "B In Tokyo, Japan, there is a see-through house. It is like a normal Japanese house but all the walls are made of glass. There is plenty of daylight but no privacy. Architect Sou Fujimoto designed it for a couple to make their home. He based his idea on early man living in trees. It wouldn't suit everyone but the couple who live there love the feeling of being surrounded by the natural world.", vi: "B Ở Tokyo, Nhật Bản, có một ngôi nhà trong suốt. Nó giống như một ngôi nhà bình thường của Nhật Bản, nhưng tất cả các bức tường đều được làm bằng kính. Ngôi nhà có rất nhiều ánh sáng tự nhiên nhưng lại không có sự riêng tư. Kiến trúc sư Sou Fujimoto đã thiết kế nó cho một cặp vợ chồng..." },
-          { en: "C All around the world, people live in homes made from shipping containers. Some use only one container, while others are made from several containers joined together. One house in Chile was built from 12 containers. They are cheap to buy and eco-friendly. They can also be placed in the garden or drive as guest rooms, studies or utility rooms.", vi: "C Trên khắp thế giới, mọi người sống trong những ngôi nhà làm từ container chở hàng. Một số ngôi nhà chỉ sử dụng một container, trong khi những ngôi nhà khác được làm từ nhiều container ghép lại với nhau. Chúng rẻ và thân thiện với môi trường..." },
-          { en: "D In Germany, you can stay in a one-metre-square house, the smallest house in the world, called the House NA. Van Bo Le-Mentzel, a refugee from Laos, built it to draw attention to the world housing shortage. It is a wooden structure on wheels and weighs 40 kg. It has a locking door and window. You can turn it onto its side when you want to lie down. Franz from Munich spent the night in one recently 'just to see what it was like'. He found it a bit uncomfortable!", vi: "D Ở Đức, bạn có thể ở trong ngôi nhà 1 mét vuông nhỏ nhất thế giới. Người ta dựng nên nó nhằm thu hút sự chú ý tới tình trạng thiếu hụt nhà ở..." },
-          { en: "E For an unusual holiday you can stay in an igloo, a house made of ice. These can be found in several countries including Sweden, Norway and Finland. They are built new every winter. Jenny and Callum, visitors from Australia, told us, 'We slept in an igloo last night. It's so cold there - minus 5 degrees centigrade. We used reindeer skins to keep warm.'", vi: "E Để có một kỳ nghỉ khác thường bạn có thể ở lều tuyết igloo. Jenny và Callum chia sẻ: 'Chúng tôi dùng da tuần lộc để giữ ấm.'" },
-          { en: "F Another couple, Shaun and Rachel from Manchester, enjoyed a recent holiday in a treehouse in Sussex, England. They said, 'It was right up in the trees and had everything we needed, even wifi! It had a small kitchen and we did our own cooking. It was the perfect place to get away from our busy lives.'", vi: "F Một cặp đôi khác đi nghỉ trong ngôi nhà trên cây: 'Đây là nơi hoàn hảo để rời xa cuộc sống bận rộn.'" }
+          { en: "Most people live in a house or a flat. When they go on holiday they stay in a hotel or a guest house. But some places where you can live or stay are a bit different.", vi: "Hầu hết mọi người sống trong một ngôi nhà hoặc căn hộ. Khi đi nghỉ họ thường ở khách sạn hoặc nhà nghỉ. Nhưng một số nơi sinh sống hoặc lưu trú lại có phần khác biệt." },
+          { en: "A One unusual place to live is a houseboat. Amsterdam in Holland is famous for its houseboats - there are about 2,500 of them. They have everything that normal houses have: a living room, bedroom, kitchen, bathroom and even sometimes a terrace on the roof. They are cheaper than houses and people who live on houseboats enjoy being close to nature. Some houseboats can be moved to other parts of the river, while others are permanently in one place.", vi: "A Một nơi ở khác thường là nhà thuyền. Amsterdam ở Hà Lan nổi tiếng với khoảng 2.500 nhà thuyền. Chúng có đầy đủ tiện nghi, rẻ hơn nhà đất và giúp gần gũi với thiên nhiên." },
+          { en: "B In Tokyo, Japan, there is a see-through house. It is like a normal Japanese house but all the walls are made of glass. There is plenty of daylight but no privacy. Architect Sou Fujimoto designed it for a couple to make their home. He based his idea on early man living in trees. It wouldn't suit everyone but the couple who live there love the feeling of being surrounded by the natural world.", vi: "B Ở Tokyo, Nhật Bản có ngôi nhà trong suốt với các bức tường bằng kính. Dù nhiều ánh sáng nhưng không có sự riêng tư. Kiến trúc sư Sou Fujimoto thiết kế nó cho một cặp vợ chồng..." },
+          { en: "C All around the world, people live in homes made from shipping containers. Some use only one container, while others are made from several containers joined together. One house in Chile was built from 12 containers. They are cheap to buy and eco-friendly. They can also be placed in the garden or drive as guest rooms, studies or utility rooms.", vi: "C Khắp nơi trên thế giới, người ta sống trong nhà làm từ container. Chúng có giá rẻ và thân thiện với môi trường." },
+          { en: "D In Germany, you can stay in a one-metre-square house, the smallest house in the world, called the House NA. Van Bo Le-Mentzel, a refugee from Laos, built it to draw attention to the world housing shortage. It is a wooden structure on wheels and weighs 40 kg. It has a locking door and window. You can turn it onto its side when you want to lie down. Franz from Munich spent the night in one recently 'just to see what it was like'. He found it a bit uncomfortable!", vi: "D Ở Đức có ngôi nhà 1 mét vuông nhỏ nhất thế giới do Van Bo Le-Mentzel xây dựng để thu hút sự chú ý đến tình trạng thiếu nhà ở toàn cầu." },
+          { en: "E For an unusual holiday you can stay in an igloo, a house made of ice. These can be found in several countries including Sweden, Norway and Finland. They are built new every winter. Jenny and Callum, visitors from Australia, told us, 'We slept in an igloo last night. It's so cold there - minus 5 degrees centigrade. We used reindeer skins to keep warm.'", vi: "E Kỳ nghỉ khác thường trong lều tuyết igloo. Jenny và Callum chia sẻ họ đã dùng da tuần lộc để giữ ấm khi nhiệt độ âm 5 độ C." },
+          { en: "F Another couple, Shaun and Rachel from Manchester, enjoyed a recent holiday in a treehouse in Sussex, England. They said, 'It was right up in the trees and had everything we needed, even wifi! It had a small kitchen and we did our own cooking. It was the perfect place to get away from our busy lives.'", vi: "F Cặp đôi Shaun và Rachel nghỉ dưỡng ở nhà trên cây tại Sussex: 'Đó là nơi lý tưởng để tạm rời xa cuộc sống bận rộn.'" }
         ],
         questions: [
           { q: "1. The two people who live in the transparent house love it, but it wouldn't _______", ans: ["suit everyone"], loc: "Đoạn B: 'It wouldn't suit everyone but the couple who live there love...'", exp: "Đoạn B chỉ rõ ngôi nhà kính không phù hợp với tất cả mọi người ('suit everyone')." },
@@ -252,16 +275,40 @@
         ],
         paraphraseTable: [
           { qWord: "transparent house", pWord: "see-through house", note: "Ngôi nhà kính trong suốt" },
-          { qWord: "two people", pWord: "the couple", note: "Hai người / cặp vợ chồng" },
-          { qWord: "the designer", pWord: "Architect Sou Fujimoto / built it", note: "Người thiết kế, kiến trúc sư" },
-          { qWord: "lack of houses", pWord: "housing shortage", note: "Sự khan hiếm, thiếu thốn nhà ở" },
-          { qWord: "protect themselves from the cold", pWord: "keep warm", note: "Bảo vệ khỏi cái lạnh / giữ ấm" },
+          { qWord: "two people", pWord: "the couple", note: "Hai người / cặp đôi" },
+          { qWord: "the designer", pWord: "Architect Sou Fujimoto / built it", note: "Nhà thiết kế, kiến trúc sư" },
+          { qWord: "lack of houses", pWord: "housing shortage", note: "Thiếu nhà ở" },
+          { qWord: "protect themselves from cold", pWord: "keep warm", note: "Bảo vệ khỏi cái lạnh / giữ ấm" },
           { qWord: "making use of", pWord: "used", note: "Tận dụng, sử dụng" },
           { qWord: "ideal holiday", pWord: "perfect place to get away", note: "Kỳ nghỉ lý tưởng" }
         ],
         vocab: [
-          { word: "see-through", type: "adj", ipa: "/ˈsiː.θruː/", def: "Trong suốt, nhìn xuyên thấu", ex: "The building has see-through glass walls.", viEx: "Tòa nhà có tường kính trong suốt." },
-          { word: "shortage", type: "n", ipa: "/ˈʃɔː.tɪdʒ/", def: "Sự thiếu hụt, khan hiếm", ex: "The city faces an acute housing shortage.", viEx: "Thành phố đối mặt tình trạng thiếu nhà trầm trọng." }
+          { word: "transparent", type: "Tính từ", ipa: "/trænˈsperənt/", def: "trong suốt", ex: "The two people who live in the transparent house love it, but it wouldn't suit everyone.", viEx: "Hai người sống trong ngôi nhà trong suốt rất yêu thích nó, nhưng nó sẽ không phù hợp với tất cả mọi người." },
+          { word: "designer", type: "Danh từ", ipa: "/dɪˈzaɪnər/", def: "nhà thiết kế", ex: "The designer created a beautiful house.", viEx: "Nhà thiết kế đã tạo ra một ngôi nhà đẹp." },
+          { word: "hopes to", type: "Cụm động từ", ipa: "/hoʊps tə/", def: "hy vọng sẽ", ex: "She hopes to travel around Europe next year.", viEx: "Cô ấy hy vọng sẽ đi du lịch khắp châu Âu vào năm sau." },
+          { word: "lack of houses", type: "Cụm danh từ", ipa: "/læk əv ˈhaʊzɪz/", def: "tình trạng thiếu nhà ở", ex: "Many cities have a lack of houses.", viEx: "Nhiều thành phố đang thiếu nhà ở." },
+          { word: "all over the world", type: "Cụm trạng từ", ipa: "/ɔːl ˈoʊvər ðə wɝːld/", def: "trên khắp thế giới", ex: "People all over the world enjoy music.", viEx: "Mọi người trên khắp thế giới đều yêu thích âm nhạc." },
+          { word: "protect themselves", type: "Cụm động từ", ipa: "/prəˈtekt ðəmˈselvz/", def: "tự bảo vệ bản thân", ex: "People wear warm clothes to protect themselves from the cold.", viEx: "Mọi người mặc quần áo ấm để bảo vệ bản thân khỏi cái lạnh." },
+          { word: "making use of", type: "Cụm động từ", ipa: "/ˈmeɪkɪŋ juːs əv/", def: "tận dụng; sử dụng", ex: "We are making use of every small space.", viEx: "Chúng tôi đang tận dụng mọi không gian nhỏ." },
+          { word: "treehouse", type: "Danh từ", ipa: "/ˈtriːhaʊs/", def: "nhà trên cây", ex: "Another couple enjoyed a recent holiday in a treehouse in Sussex, England.", viEx: "Một cặp đôi đã tận hưởng kỳ nghỉ gần đây trong một ngôi nhà trên cây ở Sussex, Anh." },
+          { word: "ideal", type: "Tính từ", ipa: "/aɪˈdiːəl/", def: "lý tưởng", ex: "This hotel is ideal for families.", viEx: "Khách sạn này rất lý tưởng cho các gia đình." },
+          { word: "see-through", type: "Tính từ", ipa: "/ˈsiː θruː/", def: "trong suốt; nhìn xuyên qua được", ex: "In Tokyo, Japan, there is a see-through house.", viEx: "Ở Tokyo, Nhật Bản có một ngôi nhà trong suốt." },
+          { word: "made of glass", type: "Cụm tính từ", ipa: "/meɪd əv ɡlæs/", def: "được làm bằng kính", ex: "All the walls are made of glass.", viEx: "Tất cả các bức tường đều được làm bằng kính." },
+          { word: "couple", type: "Danh từ", ipa: "/ˈkʌpəl/", def: "cặp đôi", ex: "Architect Sou Fujimoto designed it for a couple to make their home.", viEx: "Kiến trúc sư Sou Fujimoto đã thiết kế nó cho một cặp đôi làm nơi sinh sống." },
+          { word: "make their home", type: "Cụm động từ", ipa: "/meɪk ðer hoʊm/", def: "biến thành nơi sinh sống; làm tổ ấm", ex: "Architect Sou Fujimoto designed it for a couple to make their home.", viEx: "Kiến trúc sư Sou Fujimoto đã thiết kế nó để một cặp đôi biến nơi đó thành ngôi nhà của mình." },
+          { word: "suit everyone", type: "Cụm động từ", ipa: "/suːt ˈevriwʌn/", def: "phù hợp với tất cả mọi người", ex: "It wouldn't suit everyone.", viEx: "Nó sẽ không phù hợp với tất cả mọi người." },
+          { word: "stay", type: "Động từ", ipa: "/steɪ/", def: "ở; lưu trú", ex: "In Germany, you can stay in a one-metre-square house.", viEx: "Ở Đức, bạn có thể ở trong một ngôi nhà rộng một mét vuông." },
+          { word: "one-metre-square house", type: "Cụm danh từ", ipa: "/wʌn ˈmiːtər skwer haʊs/", def: "ngôi nhà rộng một mét vuông", ex: "In Germany, you can stay in a one-metre-square house.", viEx: "Ở Đức, bạn có thể ở trong một ngôi nhà rộng một mét vuông." },
+          { word: "refugee", type: "Danh từ", ipa: "/ˌrefjuˈdʒiː/", def: "người tị nạn", ex: "Van Bo Le-Mentzel, a refugee from Laos, built it.", viEx: "Van Bo Le-Mentzel, một người tị nạn đến từ Lào, đã xây ngôi nhà này." },
+          { word: "draw attention", type: "Cụm động từ", ipa: "/drɔː əˈtenʃən/", def: "thu hút sự chú ý", ex: "Van Bo Le-Mentzel built it to draw attention to the world housing shortage.", viEx: "Van Bo Le-Mentzel đã xây nó để thu hút sự chú ý đến tình trạng thiếu nhà ở trên thế giới." },
+          { word: "housing shortage", type: "Cụm danh từ", ipa: "/ˈhaʊzɪŋ ˈʃɔːrtɪdʒ/", def: "tình trạng thiếu nhà ở", ex: "Van Bo Le-Mentzel built it to draw attention to the world housing shortage.", viEx: "Van Bo Le-Mentzel đã xây nó để thu hút sự chú ý đến tình trạng thiếu nhà ở trên thế giới." },
+          { word: "made of ice", type: "Cụm tính từ", ipa: "/meɪd əv aɪs/", def: "được làm bằng băng", ex: "For an unusual holiday you can stay in an igloo, a house made of ice.", viEx: "Để có một kỳ nghỉ khác thường, bạn có thể ở trong một ngôi nhà băng." },
+          { word: "winter", type: "Danh từ", ipa: "/ˈwɪntər/", def: "mùa đông", ex: "They are built new every winter.", viEx: "Chúng được xây mới vào mỗi mùa đông." },
+          { word: "reindeer skins", type: "Cụm danh từ", ipa: "/ˈreɪndɪr skɪnz/", def: "da tuần lộc", ex: "We used reindeer skins to keep warm.", viEx: "Chúng tôi dùng da tuần lộc để giữ ấm." },
+          { word: "keep warm", type: "Cụm động từ", ipa: "/kiːp wɔːrm/", def: "giữ ấm", ex: "We used reindeer skins to keep warm.", viEx: "Chúng tôi dùng da tuần lộc để giữ ấm." },
+          { word: "perfect place", type: "Cụm danh từ", ipa: "/ˈpɝːfɪkt pleɪs/", def: "nơi lý tưởng", ex: "It was the perfect place to get away from our busy lives.", viEx: "Đó là nơi lý tưởng để tạm rời xa cuộc sống bận rộn của chúng tôi." },
+          { word: "get away", type: "Cụm động từ", ipa: "/ɡet əˈweɪ/", def: "tránh xa; tạm rời khỏi", ex: "It was the perfect place to get away from our busy lives.", viEx: "Đó là nơi lý tưởng để tạm rời xa cuộc sống bận rộn của chúng tôi." },
+          { word: "busy lives", type: "Cụm danh từ", ipa: "/ˈbɪzi laɪvz/", def: "cuộc sống bận rộn", ex: "It was the perfect place to get away from our busy lives.", viEx: "Đó là nơi lý tưởng để tạm rời xa cuộc sống bận rộn của chúng tôi." }
         ]
       },
       {
@@ -270,11 +317,11 @@
         title: "Activity 2: HOME FROM HOME",
         instruction: "Read the passage and complete the sentences below. Choose NO MORE THAN THREE WORDS from the passage for each answer.",
         passage: [
-          { en: "I remember feeling the first time I left home that I would never be able to feel at home anywhere but in my home. No other place would have my mum and dad, my annoying little brother and my cat, Tilly. Nowhere would smell like my home – my mum's roast chicken in the oven and the salty, seaweed smell that drifted in from the nearby beach. The sound of seagulls squawking was the sound of home. Nowhere else would I feel comfortable enough to put my feet up under me and gaze into the log fire dreaming of the future.", vi: "Tôi nhớ lần đầu tiên rời khỏi nhà, tôi đã cảm thấy rằng mình sẽ không bao giờ có thể cảm thấy thoải mái như ở nhà khi ở bất kỳ nơi nào khác. Không nơi nào khác có mẹ và bố đáng yêu của tôi, em trai tôi và chú mèo Tilly. Mùi món gà quay của mẹ trong lò nướng và mùi mằn mặn của rong biển..." },
-          { en: "I was 15 when I first went away from home on a school trip to Germany. My friends were going too, but we would all stay with different families. I was nervous about this. I knew the home I was going to would not be as comfortable as mine, the family would not be as kind, and who knew what the German food would be like? I knew I would spend three weeks, homesick and sad, missing my family back home.", vi: "Tôi 15 tuổi khi lần đầu tiên xa nhà trong một chuyến đi của trường tới Đức. Bạn bè tôi cũng đi, nhưng tất cả chúng tôi sẽ ở với những gia đình khác nhau. Tôi rất lo lắng về điều này. Tôi biết mình sẽ phải trải qua ba tuần nhớ nhà và buồn bã, nhớ gia đình ở quê nhà." },
-          { en: "We arrived in Germany late at night after a long journey by coach and boat. I was tired and hungry. We went into the school hall, where the host families were waiting to meet us. I wondered which one would be mine. Would they give me dinner at this time and would I be able to eat the unfamiliar food? Suddenly I heard my name called and the name of my exchange partner, Brigitte Schmitt. A pretty, blonde girl stepped forward, smiling widely. Behind her stood her parents, a pleasant-looking couple who were also smiling. They held out their hands and said, 'Wilkommen in Deutschland. Welcome to Germany.'", vi: "Chúng tôi đến Đức vào đêm muộn sau một hành trình dài. Đột nhiên tôi nghe thấy tên mình được gọi cùng với tên bạn học trao đổi Brigitte Schmitt. Một cô gái tóc vàng xinh xắn bước lên phía trước, nở nụ cười thật tươi. Đứng phía sau cô ấy là bố mẹ cô..." },
-          { en: "I spent three happy weeks with the Schmitt family. Brigitte had an elder brother, Hendrik, and a younger sister, Lisa. They had two cats, Ping and Pong, who sat on my lap as I looked into the fire in the evenings. The whole family were kind and welcoming. My room was cosy and warm and we looked out onto a forest. The fresh clean smell of the trees and of apples baking in the oven became familiar and comforting, like the smells of home. I learnt in those three weeks that you can feel at home anywhere that people are kind to you.", vi: "Tôi đã trải qua ba tuần vui vẻ cùng gia đình Schmitt. Brigitte có anh trai Hendrik và em gái Lisa. Họ có hai chú mèo, Ping và Pong. Căn phòng của tôi ấm cúng và nhìn ra một khu rừng..." },
-          { en: "Later that year, Brigitte came to stay with me in the UK. I gave her my room and moved in with my brother. I cleared space for her clothes and put fresh flowers in a vase by the bed. I asked my mum to make her famous roast chicken and an apple pie to make our guest feel at home. We made a welcome banner and put it up on the front door. I did everything I could to help Brigitte feel at home with us. I now understood the importance of a warm welcome.", vi: "Cuối năm đó, Brigitte đến ở cùng tôi tại Anh. Tôi dọn phòng, cắm hoa và nhờ mẹ làm món gà quay nổi tiếng để bạn cảm thấy như ở nhà. Giờ đây tôi đã hiểu tầm quan trọng của sự đón tiếp nồng hậu." }
+          { en: "I remember feeling the first time I left home that I would never be able to feel at home anywhere but in my home. No other place would have my mum and dad, my annoying little brother and my cat, Tilly. Nowhere would smell like my home – my mum's roast chicken in the oven and the salty, seaweed smell that drifted in from the nearby beach. The sound of seagulls squawking was the sound of home. Nowhere else would I feel comfortable enough to put my feet up under me and gaze into the log fire dreaming of the future.", vi: "Tôi nhớ lần đầu tiên rời xa nhà tôi từng nghĩ mình không thể thấy thoải mái ở nơi nào khác. Mùi gà quay của mẹ trong lò nướng và mùi mặn của rong biển từ bãi biển gần đó là hương vị của tổ ấm." },
+          { en: "I was 15 when I first went away from home on a school trip to Germany. My friends were going too, but we would all stay with different families. I was nervous about this. I knew the home I was going to would not be as comfortable as mine, the family would not be as kind, and who knew what the German food would be like? I knew I would spend three weeks, homesick and sad, missing my family back home.", vi: "Năm 15 tuổi tôi sang Đức trong chuyến đi của trường. Tôi lo lắng mình sẽ phải trải qua ba tuần nhớ nhà và buồn bã..." },
+          { en: "We arrived in Germany late at night after a long journey by coach and boat. I was tired and hungry. We went into the school hall, where the host families were waiting to meet us. I wondered which one would be mine. Would they give me dinner at this time and would I be able to eat the unfamiliar food? Suddenly I heard my name called and the name of my exchange partner, Brigitte Schmitt. A pretty, blonde girl stepped forward, smiling widely. Behind her stood her parents, a pleasant-looking couple who were also smiling. They held out their hands and said, 'Wilkommen in Deutschland. Welcome to Germany.'", vi: "Đến Đức vào đêm muộn, Brigitte Schmitt - cô bạn tóc vàng cùng bố mẹ trông rất dễ mến bước đến chào đón tôi nồng hậu." },
+          { en: "I spent three happy weeks with the Schmitt family. Brigitte had an elder brother, Hendrik, and a younger sister, Lisa. They had two cats, Ping and Pong, who sat on my lap as I looked into the fire in the evenings. The whole family were kind and welcoming. My room was cosy and warm and we looked out onto a forest. The fresh clean smell of the trees and of apples baking in the oven became familiar and comforting, like the smells of home. I learnt in those three weeks that you can feel at home anywhere that people are kind to you.", vi: "Tôi trải qua 3 tuần vui vẻ cùng gia đình Schmitt. Họ có 2 chú mèo Ping và Pong. Phòng tôi nhìn ra khu rừng và mọi người rất ấm áp." },
+          { en: "Later that year, Brigitte came to stay with me in the UK. I gave her my room and moved in with my brother. I cleared space for her clothes and put fresh flowers in a vase by the bed. I asked my mum to make her famous roast chicken and an apple pie to make our guest feel at home. We made a welcome banner and put it up on the front door. I did everything I could to help Brigitte feel at home with us. I now understood the importance of a warm welcome.", vi: "Sau đó Brigitte sang Anh ở cùng tôi. Tôi dọn phòng, cắm hoa và nhờ mẹ nướng gà để bạn cảm thấy như ở nhà. Giờ tôi đã hiểu tầm quan trọng của lời chào đón ấm áp." }
         ],
         questions: [
           { q: "1. The writer's mother often cooks _______", ans: ["roast chicken"], loc: "Đoạn 1: '...my mum's roast chicken in the oven...'", exp: "Món ăn mẹ tác giả thường nấu nướng trong lò là món 'roast chicken'." },
@@ -295,414 +342,65 @@
           { qWord: "tried hard to make", pWord: "did everything I could to help", note: "Nỗ lực hết mình để giúp ai đó" }
         ],
         vocab: [
-          { word: "homesick", type: "adj", ipa: "/ˈhəʊm.sɪk/", def: "Nhớ nhà, bồn chồn khi xa quê", ex: "He felt terribly homesick during the trip.", viEx: "Cậu ấy cảm thấy nhớ nhà da diết suốt chuyến đi." },
-          { word: "cosy", type: "adj", ipa: "/ˈkəʊ.zi/", def: "Ấm cúng, dễ chịu", ex: "My room was cosy and warm.", viEx: "Căn phòng tôi ấm áp và ấm cúng." },
-          { word: "welcoming", type: "adj", ipa: "/ˈwel.kəm.ɪŋ/", def: "Niềm nở, hiếu khách", ex: "The hosts were hospitable and welcoming.", viEx: "Chủ nhà rất hiếu khách và niềm nở." },
-          { word: "feel at home", type: "idiom", ipa: "/fiːl æt həʊm/", def: "Cảm thấy thoải mái như ở nhà", ex: "Make yourself at home.", viEx: "Cứ tự nhiên như ở nhà nhé." }
+          { word: "writer", type: "Danh từ", ipa: "/ˈraɪtər/", def: "người viết; tác giả", ex: "The writer remembers leaving home for the first time.", viEx: "Người viết nhớ lần đầu tiên rời xa nhà." },
+          { word: "visit", type: "Danh từ", ipa: "/ˈvɪzɪt/", def: "chuyến thăm; chuyến đi", ex: "My visit to Germany was exciting.", viEx: "Chuyến đi đến Đức của tôi rất thú vị." },
+          { word: "Germany", type: "Danh từ riêng", ipa: "/ˈdʒɝːməni/", def: "Đức", ex: "I was 15 when I first went away from home on a school trip to Germany.", viEx: "Tôi 15 tuổi khi lần đầu tiên rời xa nhà để tham gia một chuyến đi của trường đến Đức." },
+          { word: "make her feel", type: "Cụm động từ", ipa: "/meɪk hɚ fiːl/", def: "khiến cô ấy cảm thấy", ex: "We wanted to make her feel welcome.", viEx: "Chúng tôi muốn khiến cô ấy cảm thấy được chào đón." },
+          { word: "pick up", type: "Cụm động từ", ipa: "/pɪk ʌp/", def: "đón", ex: "My parents came to pick me up after school.", viEx: "Bố mẹ tôi đến đón tôi sau giờ học." },
+          { word: "pets", type: "Danh từ số nhiều", ipa: "/pets/", def: "thú cưng", ex: "Many families have pets at home.", viEx: "Nhiều gia đình nuôi thú cưng ở nhà." },
+          { word: "bedroom", type: "Danh từ", ipa: "/ˈbedruːm/", def: "phòng ngủ", ex: "My bedroom is clean and comfortable.", viEx: "Phòng ngủ của tôi sạch sẽ và thoải mái." },
+          { word: "tried hard", type: "Cụm động từ", ipa: "/traɪd hɑːrd/", def: "cố gắng hết sức", ex: "She tried hard to help her friend.", viEx: "Cô ấy đã cố gắng hết sức để giúp bạn mình." },
+          { word: "Nowhere", type: "Trạng từ", ipa: "/ˈnoʊwer/", def: "không nơi nào", ex: "Nowhere would smell like my home.", viEx: "Không nơi nào có mùi hương giống như ngôi nhà của tôi." },
+          { word: "smell", type: "Động từ", ipa: "/smel/", def: "có mùi; ngửi thấy mùi", ex: "Nowhere would smell like my home.", viEx: "Không nơi nào có mùi hương giống như ngôi nhà của tôi." },
+          { word: "roast chicken", type: "Cụm danh từ", ipa: "/roʊst ˈtʃɪkɪn/", def: "gà quay", ex: "My mum's roast chicken in the oven...", viEx: "Món gà quay của mẹ tôi trong lò nướng..." },
+          { word: "oven", type: "Danh từ", ipa: "/ˈʌvən/", def: "lò nướng", ex: "My mum's roast chicken in the oven...", viEx: "Món gà quay của mẹ tôi trong lò nướng..." },
+          { word: "salty, seaweed smell", type: "Cụm danh từ", ipa: "/ˈsɔːlti ˈsiːwiːd smel/", def: "mùi rong biển mặn", ex: "The salty, seaweed smell drifted in from the nearby beach.", viEx: "Mùi rong biển mặn thoảng vào từ bãi biển gần đó." },
+          { word: "drifted in", type: "Cụm động từ", ipa: "/ˈdrɪftɪd ɪn/", def: "thoảng vào; bay vào", ex: "The salty, seaweed smell drifted in from the nearby beach.", viEx: "Mùi rong biển mặn thoảng vào từ bãi biển gần đó." },
+          { word: "nearby beach", type: "Cụm danh từ", ipa: "/ˈnɪrbaɪ biːtʃ/", def: "bãi biển gần đó", ex: "The salty, seaweed smell drifted in from the nearby beach.", viEx: "Mùi rong biển mặn thoảng vào từ bãi biển gần đó." },
+          { word: "went away from home", type: "Cụm động từ", ipa: "/went əˈweɪ frəm hoʊm/", def: "rời xa nhà", ex: "I was 15 when I first went away from home on a school trip to Germany.", viEx: "Tôi 15 tuổi khi lần đầu tiên rời xa nhà để tham gia chuyến đi của trường đến Đức." },
+          { word: "school trip", type: "Cụm danh từ", ipa: "/skuːl trɪp/", def: "chuyến đi của trường", ex: "I was 15 when I first went away from home on a school trip to Germany.", viEx: "Tôi 15 tuổi khi lần đầu tiên rời xa nhà để tham gia chuyến đi của trường đến Đức." },
+          { word: "nervous", type: "Tính từ", ipa: "/ˈnɝːvəs/", def: "lo lắng", ex: "I was nervous about this.", viEx: "Tôi rất lo lắng về điều đó." },
+          { word: "comfortable", type: "Tính từ", ipa: "/ˈkʌmftərbl/", def: "thoải mái", ex: "I knew the home I was going to would not be as comfortable as mine.", viEx: "Tôi biết ngôi nhà mình sắp đến sẽ không thoải mái bằng nhà mình." },
+          { word: "mine", type: "Đại từ sở hữu", ipa: "/maɪn/", def: "của tôi", ex: "I knew the home I was going to would not be as comfortable as mine.", viEx: "Tôi biết ngôi nhà mình sắp đến sẽ không thoải mái bằng nhà của tôi." },
+          { word: "kind", type: "Tính từ", ipa: "/kaɪnd/", def: "tốt bụng", ex: "The family would not be as kind.", viEx: "Gia đình đó sẽ không tốt bụng bằng." },
+          { word: "German food", type: "Cụm danh từ", ipa: "/ˈdʒɝːmən fuːd/", def: "đồ ăn Đức", ex: "Who knew what the German food would be like?", viEx: "Ai mà biết đồ ăn Đức sẽ như thế nào chứ?" },
+          { word: "homesick", type: "Tính từ", ipa: "/ˈhoʊmsɪk/", def: "nhớ nhà", ex: "I knew I would spend three weeks, homesick and sad.", viEx: "Tôi biết mình sẽ trải qua ba tuần nhớ nhà và buồn bã." },
+          { word: "exchange partner", type: "Cụm danh từ", ipa: "/ɪksˈtʃeɪndʒ ˈpɑːrtnər/", def: "bạn trao đổi", ex: "I heard my name called and the name of my exchange partner, Brigitte Schmitt.", viEx: "Tôi nghe thấy tên mình được gọi cùng với tên của bạn trao đổi là Brigitte Schmitt." },
+          { word: "blonde girl", type: "Cụm danh từ", ipa: "/blɑːnd ɡɝːl/", def: "cô gái tóc vàng", ex: "A pretty, blonde girl stepped forward, smiling widely.", viEx: "Một cô gái tóc vàng xinh xắn bước lên phía trước và mỉm cười rạng rỡ." },
+          { word: "stepped forward", type: "Cụm động từ", ipa: "/stept ˈfɔːrwərd/", def: "bước lên phía trước", ex: "A pretty, blonde girl stepped forward, smiling widely.", viEx: "Một cô gái tóc vàng xinh xắn bước lên phía trước và mỉm cười rạng rỡ." },
+          { word: "smiling widely", type: "Cụm động từ", ipa: "/ˈsmaɪlɪŋ ˈwaɪdli/", def: "mỉm cười rạng rỡ", ex: "A pretty, blonde girl stepped forward, smiling widely.", viEx: "Một cô gái tóc vàng xinh xắn bước lên phía trước và mỉm cười rạng rỡ." },
+          { word: "pleasant-looking", type: "Tính từ", ipa: "/ˈplezənt ˌlʊkɪŋ/", def: "có vẻ ngoài dễ mến", ex: "Behind her stood her parents, a pleasant-looking couple.", viEx: "Đằng sau cô ấy là bố mẹ cô, một cặp vợ chồng có vẻ ngoài rất dễ mến." },
+          { word: "lap", type: "Danh từ", ipa: "/læp/", def: "lòng (đùi khi ngồi)", ex: "They had two cats, Ping and Pong, who sat on my lap.", viEx: "Họ có hai con mèo, Ping và Pong, chúng ngồi trên lòng tôi." },
+          { word: "cosy", type: "Tính từ", ipa: "/ˈkoʊzi/", def: "ấm cúng", ex: "My room was cosy and warm.", viEx: "Phòng của tôi rất ấm cúng và ấm áp." },
+          { word: "looked out onto a forest", type: "Cụm động từ", ipa: "/lʊkt aʊt ˈɑːntu ə ˈfɔːrɪst/", def: "nhìn ra khu rừng", ex: "We looked out onto a forest.", viEx: "Chúng tôi nhìn ra một khu rừng." },
+          { word: "fresh flowers", type: "Cụm danh từ", ipa: "/freʃ ˈflaʊərz/", def: "hoa tươi", ex: "I put fresh flowers in a vase by the bed.", viEx: "Tôi đặt hoa tươi vào một chiếc bình bên cạnh giường." },
+          { word: "vase", type: "Danh từ", ipa: "/veɪs/", def: "bình hoa", ex: "I put fresh flowers in a vase by the bed.", viEx: "Tôi đặt hoa tươi vào một chiếc bình bên cạnh giường." },
+          { word: "apple pie", type: "Cụm danh từ", ipa: "/ˌæpl ˈpaɪ/", def: "bánh táo", ex: "I asked my mum to make her famous roast chicken and an apple pie.", viEx: "Tôi nhờ mẹ làm món gà quay nổi tiếng và một chiếc bánh táo." },
+          { word: "feel at home", type: "Cụm động từ", ipa: "/fiːl æt hoʊm/", def: "cảm thấy như ở nhà", ex: "We made our guest feel at home.", viEx: "Chúng tôi khiến vị khách cảm thấy như đang ở nhà." },
+          { word: "welcome banner", type: "Cụm danh từ", ipa: "/ˈwelkəm ˈbænər/", def: "biểu ngữ chào mừng", ex: "We made a welcome banner and put it up on the front door.", viEx: "Chúng tôi làm một biểu ngữ chào mừng và treo nó lên cửa trước." }
         ]
-      },
-      {
-        id: 3,
-        part: "01. DẠNG BÀI SENTENCE COMPLETION",
-        title: "Activity 3: FOOD CULTURE SHOCK",
-        instruction: "Complete these sentences using a word from the text.",
-        passage: [
-          { en: "A CHARLES: You would think that eating with your fingers would be easy. In the US, there are only certain things you can eat with your fingers, like burgers, for example, and that is easy enough. When I went to South India, though, I realised that it is a whole new skill to learn to eat rice and curry with your fingers. You have to mix the curries together and with the rice and form a ball. Daal is particularly helpful as a kind of glue. You use your fingertips, never the palm of your hand, and use your thumb to pop it into your mouth.", vi: "A CHARLES: Bạn có thể nghĩ rằng ăn bằng tay thì hẳn là rất dễ. Ở Mỹ, chỉ có một số món nhất định mà bạn có thể ăn bằng tay... Khi tới Nam Ấn Độ, tôi nhận ra ăn bằng tay là cả kỹ năng mới... Dùng đầu ngón tay chứ không dùng lòng bàn tay..." },
-          { en: "B ALFREDO: For me, when I travel, the 'fast food' culture always shocks me. I can't believe there are people in the world who live on 'junk food' like burgers and just grab a sandwich for lunch. Back home, food is very important to us... Food is part of your identity, so what are you saying about yourself when you eat some rubbish which contains chemicals and goodness knows what else?", vi: "B ALFREDO: Đồ ăn nhanh làm tôi sốc... Thức ăn là một phần bản sắc của bạn..." },
-          { en: "C QIANG SHI: I enjoy trying food from different countries, but what interests me more is the culture and habits surrounding food and eating. In China, when we go to a restaurant with colleagues, when we are offered something, we say 'No thanks', even though we want it, because the person will definitely repeat the offer. In other countries, though, 'no' means 'no'...", vi: "C QIANG SHI: Ở Trung Quốc được mời gì hay nói 'Không cảm ơn' dù muốn, vì họ sẽ tiếp tục mời..." },
-          { en: "D PAULINE: Being a vegetarian is so easy here in the UK that we forget that not everyone in the world understands vegetarianism... In many parts of the world, meat equates to prosperity, so the idea of going out for a meal and not having meat is alien to them.", vi: "D PAULINE: Nhiều nơi thịt đồng nghĩa với giàu sang, ăn uống không có thịt là kỳ lạ với họ." },
-          { en: "E AILEEN: I think breakfast is the meal where food culture really hits you. In Australia, there are certain foods you eat for breakfast and certain foods you don't. We usually eat cereal or toast... But when I travelled in Asia, I realised that in many places, there is no difference between breakfast and dinner: rice, curry, noodles, soup, steamed vegetables and fish all appeared at breakfast.", vi: "E AILEEN: Ở Úc ăn ngũ cốc. Sang châu Á thì bữa sáng và bữa tối đều có cơm, mì, cà ri như nhau..." }
-        ],
-        questions: [
-          { q: "1. In China, if you refuse food, the host will usually _______ the offer.", ans: ["repeat"], loc: "Đoạn C: '...because the person will definitely repeat the offer.'", exp: "Chủ nhà sẽ lặp lại lời mời ('repeat')." },
-          { q: "2. For Alfredo, food plays an important role in a person's _______", ans: ["identity"], loc: "Đoạn B: 'Food is part of your identity...'", exp: "Thực phẩm thể hiện bản sắc ('identity') cá nhân." },
-          { q: "3. In India, you should not use your _______ when eating.", ans: ["palm", "palms"], loc: "Đoạn A: 'You use your fingertips, never the palm of your hand...'", exp: "Không bao giờ được dùng lòng bàn tay ('palm')." },
-          { q: "4. In some countries, eating meat represents _______", ans: ["prosperity"], loc: "Đoạn D: '...meat equates to prosperity...'", exp: "Ăn thịt tượng trưng cho sự thịnh vượng, sung túc ('prosperity')." },
-          { q: "5. In many places in _______ there is no difference between foods eaten for breakfast and dinner.", ans: ["asia"], loc: "Đoạn E: 'But when I travelled in Asia, I realised that in many places...'", exp: "Ở nhiều nơi tại Châu Á ('Asia')." }
-        ],
-        paraphraseTable: [
-          { qWord: "refuse food", pWord: "say 'No thanks'", note: "Từ chối đồ ăn / nói không cảm ơn" },
-          { qWord: "plays an important role", pWord: "is part of", note: "Đóng vai trò quan trọng / là một phần" },
-          { qWord: "eating represents", pWord: "equates to", note: "Đại diện cho / đồng nghĩa với" },
-          { qWord: "no difference between", pWord: "all appeared at breakfast", note: "Không có sự phân biệt / đều xuất hiện" }
-        ],
-        vocab: [{ word: "prosperity", type: "n", ipa: "/prɒsˈper.ə.ti/", def: "Sự thịnh vượng", ex: "Economic prosperity.", viEx: "Sự thịnh vượng kinh tế." }]
-      },
-      {
-        id: 4,
-        part: "01. DẠNG BÀI SENTENCE COMPLETION",
-        title: "Activity 4: OUR FRIENDS AND PROTECTORS",
-        instruction: "Write NO MORE THAN TWO/THREE WORDS from the passage for each answer.",
-        passage: [
-          { en: "A When asked their favourite animals, many people answer 'dolphins'. They are known as friendly, intelligent creatures that have a special relationship with humans. Experts think they may understand that humans are similar to them and try to protect them from predators and other dangers.", vi: "Cá heo bảo vệ con người vì thấy con người tương đồng với chúng..." },
-          { en: "B There are many stories about dolphins protecting humans from sharks. Wildlife filmmaker Hardy Jones was filming a group of dolphins, when a large shark swam towards him ready to attack. Four dolphins came to his rescue and drove the shark away. In fact, Jones was a well-known campaigner against the killing of dolphins.", vi: "Hardy Jones được cá heo cứu khỏi cá mập. Ông là nhà vận động bảo vệ cá heo nổi tiếng..." },
-          { en: "E Whales have also been known to protect both humans and other mammals. In California, in 2012, a BBC Planet Earth film crew filmed a group of humpback whales who were protecting migrating grey whales from attacks by orcas over a period of at least seven hours. In China, Yang Yun found she couldn't move her legs due to the freezing temperatures. Mila gripped Yang Yun's leg in her mouth and pushed Yun to the surface.", vi: "Cá voi lưng gù bảo vệ đàn cá voi xám di cư trước cá voi sát thủ hơn 7 giờ. Cá voi trắng Mila ngậm chân kéo thợ lặn Yang Yun lên..." }
-        ],
-        questions: [
-          { q: "1. A pod of dolphins saved the life of a man called _______ while he was videoing them.", ans: ["hardy jones"], loc: "Đoạn B: 'filmmaker Hardy Jones was filming a group of dolphins...'", exp: "Người được cứu là 'Hardy Jones'." },
-          { q: "2. The man was a famous _______ for the protection of dolphins.", ans: ["campaigner"], loc: "Đoạn B: 'Jones was a well-known campaigner against the killing of dolphins.'", exp: "Ông là nhà vận động ('campaigner')." },
-          { q: "3. Orcas were trying to catch and hurt a group of _______", ans: ["grey whales"], loc: "Đoạn E: '...protecting migrating grey whales from attacks by orcas...'", exp: "Cá voi xám ('grey whales')." },
-          { q: "4. The migrating whales were helped by _______", ans: ["humpback whales"], loc: "Đoạn E: 'a group of humpback whales who were protecting...'", exp: "Cá voi lưng gù ('humpback whales')." },
-          { q: "5. The whole incident lasted more than _______", ans: ["seven hours", "7 hours"], loc: "Đoạn E: '...over a period of at least seven hours.'", exp: "Kéo dài hơn 7 giờ ('seven hours')." },
-          { q: "6. Because of icy waters the diver was unable to _______", ans: ["move her legs"], loc: "Đoạn E: 'Yang Yun found she couldn't move her legs...'", exp: "Không cử động được chân ('move her legs')." },
-          { q: "7. One whale saved her life by taking hold of her _______ and giving a push upward.", ans: ["leg"], loc: "Đoạn E: 'Mila gripped Yang Yun's leg in her mouth...'", exp: "Ngậm vào chân ('leg') để đẩy lên." }
-        ],
-        paraphraseTable: [
-          { qWord: "videoing them", pWord: "was filming", note: "Quay phim, ghi hình" },
-          { qWord: "famous campaigner", pWord: "well-known campaigner", note: "Nhà vận động nổi tiếng" },
-          { qWord: "catch and hurt", pWord: "attacks", note: "Tấn công, làm hại" },
-          { qWord: "travelling from one place to another", pWord: "migrating", note: "Di cư từ nơi này sang nơi khác" },
-          { qWord: "taking hold of", pWord: "gripped in her mouth", note: "Ngoạm lấy, giữ chặt" }
-        ],
-        vocab: [{ word: "predator", type: "n", ipa: "/ˈpred.ə.tər/", def: "Động vật săn mồi", ex: "Ocean predator.", viEx: "Loài săn mồi đại dương." }]
-      },
-      {
-        id: 5,
-        part: "01. DẠNG BÀI SENTENCE COMPLETION",
-        title: "Activity 5: THE MODERN ZOO",
-        instruction: "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
-        passage: [
-          { en: "Until the late twentieth century, the main purpose of zoos was for entertainment. They existed to give people the chance to see animals they could not see in the wild. In 1959, famous wildlife expert Gerald Durrell opened the first zoo which put conservation of animals first.", vi: "Mục đích ban đầu là giải trí. Năm 1959 Gerald Durrell mở sở thú ưu tiên bảo tồn." },
-          { en: "From the 1990s, zoos began to see their main role as saving the most threatened species... Often the aim is to reintroduce endangered species into their natural habitats. In Indonesia, Borneo Orangutan Rescue teaches orangutans how to live in the wild.", vi: "Đưa loài nguy cấp về môi trường tự nhiên (natural habitats). Học cách sinh tồn hoang dã (the wild)." },
-          { en: "Zoos try to provide 'enrichment' for the animals to improve their wellbeing... In many zoos there are webcams in some enclosures so visitors can keep up with their favourite animals between visits.", vi: "Cung cấp sự phong phú (enrichment) và webcam để xem từ xa." }
-        ],
-        questions: [
-          { q: "1. Before the 1990s, zoos existed mainly for _______", ans: ["entertainment"], loc: "Đoạn 1: 'the main purpose of zoos was for entertainment.'", exp: "Giải trí ('entertainment')." },
-          { q: "2. The first zoo to focus on protecting animals was started by _______", ans: ["gerald durrell"], loc: "Đoạn 1: 'Gerald Durrell opened the first zoo which put conservation...'", exp: "Gerald Durrell." },
-          { q: "3. Programmes aim to breed threatened animals and return them to their _______", ans: ["natural habitats"], loc: "Đoạn 3: '...reintroduce endangered species into their natural habitats.'", exp: "Môi trường sống tự nhiên ('natural habitats')." },
-          { q: "4. But first the animals have to learn how to survive in the _______", ans: ["wild"], loc: "Đoạn 3: '...teaches orangutans how to live in the wild.'", exp: "Nơi hoang dã ('wild')." },
-          { q: "5. Zoos offer animals _______ by making it challenging to find food and climb.", ans: ["enrichment"], loc: "Đoạn 4: 'Zoos try to provide enrichment for the animals...'", exp: "Biện pháp làm giàu môi trường sống ('enrichment')." },
-          { q: "6. _______ enable the public to view zoo animals from their homes.", ans: ["webcams"], loc: "Đoạn 7: 'webcams in some enclosures so visitors can keep up...'", exp: "Webcam ('webcams')." }
-        ],
-        paraphraseTable: [
-          { qWord: "focus on protecting animals", pWord: "put conservation first", note: "Tập trung bảo tồn muông thú" },
-          { qWord: "return them to", pWord: "reintroduce into", note: "Tái thả về nơi cư trú tự nhiên" },
-          { qWord: "view from their homes", pWord: "webcams in enclosures", note: "Xem qua máy quay tại gia" }
-        ],
-        vocab: [{ word: "conservation", type: "n", ipa: "/ˌkɒn.səˈveɪ.ʃən/", def: "Sự bảo tồn", ex: "Wildlife conservation.", viEx: "Bảo tồn động vật hoang dã." }]
-      },
-      {
-        id: 6,
-        part: "02. DẠNG BÀI SUMMARY COMPLETION",
-        title: "Activity 6: UNUSUAL SPORTS",
-        instruction: "Complete summary: [A boring, B change, C clever, D feature, E horses, F join, G mixed, H moving, I serious, J sport, K strange, L trampolines]",
-        passage: [
-          { en: "There are plenty of new and unusual sports out there... Many of these are a mix of existing sports, sometimes with a local element added. Buzkashi involves players on horseback trying to get hold of a dead goat. Chess boxing describes itself as 'a classic mix of brains and brawn' where players need to be able to switch quickly between the two.", vi: "Các môn thể thao lạ kết hợp nhiều yếu tố..." }
-        ],
-        questions: [
-          { q: "1. You can try a number of [1] _______ new sports.", ans: ["k", "strange", "k (strange)"], loc: "unusual sports -> strange", exp: "K (strange) đồng nghĩa với unusual." },
-          { q: "2. Some of these were created when people [2] _______ two well-known sports.", ans: ["g", "mixed", "g (mixed)"], loc: "a mix of existing sports -> mixed", exp: "G (mixed): nhào trộn." },
-          { q: "3. Sometimes they added a [3] _______ from their world.", ans: ["d", "feature", "d (feature)"], loc: "local element added -> feature", exp: "D (feature): nét đặc trưng." },
-          { q: "4. Buzkashi is played on [4] _______", ans: ["e", "horses", "e (horses)"], loc: "on horseback -> on horses", exp: "E (horses): trên lưng ngựa." },
-          { q: "5. In chess boxing you need to [5] _______ rapidly.", ans: ["b", "change", "b (change)"], loc: "switch quickly -> change rapidly", exp: "B (change): thay đổi mau chóng." },
-          { q: "6. You need to be [6] _______ and also fit.", ans: ["c", "clever", "c (clever)"], loc: "mix of brains and brawn -> clever", exp: "C (clever): khôn ngoan, trí tuệ." }
-        ],
-        paraphraseTable: [
-          { qWord: "unusual", pWord: "strange", note: "Mới lạ, kỳ lạ" },
-          { qWord: "combine / a mix", pWord: "mixed", note: "Kết hợp, nhào trộn" },
-          { qWord: "local element", pWord: "feature", note: "Yếu tố, đặc điểm" },
-          { qWord: "on horseback", pWord: "on horses", note: "Trên lưng ngựa" },
-          { qWord: "switch quickly", pWord: "change rapidly", note: "Chuyển trạng thái mau lẹ" },
-          { qWord: "brains", pWord: "clever", note: "Đầu óc / thông minh" }
-        ],
-        vocab: [{ word: "brawn", type: "n", ipa: "/brɔːn/", def: "Sức mạnh cơ bắp", ex: "Brains and brawn.", viEx: "Trí tuệ và cơ bắp." }]
-      },
-      {
-        id: 7,
-        part: "02. DẠNG BÀI SUMMARY COMPLETION",
-        title: "Activity 7: Parkour",
-        instruction: "Complete summary using words A-M: [A agrees, B barriers, C competition, D conflicts, E creativity, F latecomers, G move, H moving, I personal, J respect, K team, L tournaments, M traceurs]",
-        passage: [
-          { en: "Parkour is based on obstacle training: running, climbing, jumping... Traceurs believe parkour can never be a competitive sport. Practicing in limited gyms conflicts with freedom. Freerunning focuses more on the individual.", vi: "Parkour là môn vượt chướng ngại vật chú trọng phát triển cá nhân..." }
-        ],
-        questions: [
-          { q: "9. Parkour involves [9] _______ in many ways.", ans: ["h", "moving", "h (moving)"], loc: "how you move -> moving", exp: "H (moving)." },
-          { q: "10. People who practise are called [10] _______", ans: ["m", "traceurs", "m (traceurs)"], loc: "traceurs", exp: "M (traceurs)." },
-          { q: "11. Can never be part of a [11] _______", ans: ["c", "competition", "c (competition)"], loc: "competitive sport -> competition", exp: "C (competition)." },
-          { q: "12. Values are adaptability, [12] _______ and freedom.", ans: ["e", "creativity", "e (creativity)"], loc: "creative -> creativity", exp: "E (creativity)." },
-          { q: "13. Overcoming [13] _______", ans: ["b", "barriers", "b (barriers)"], loc: "getting over barriers", exp: "B (barriers)." },
-          { q: "14. Gyms [14] _______ with the discipline's values.", ans: ["d", "conflicts", "d (conflicts)"], loc: "conflicts with values", exp: "D (conflicts)." },
-          { q: "15. Freerunning is more about [15] _______ development.", ans: ["i", "personal", "i (personal)"], loc: "focus on individual -> personal", exp: "I (personal)." }
-        ],
-        paraphraseTable: [
-          { qWord: "how you move", pWord: "moving", note: "Cách thức vận động" },
-          { qWord: "competitive sport", pWord: "competition", note: "Cuộc thi đấu ganh đua" },
-          { qWord: "be creative", pWord: "creativity", note: "Tính sáng tạo" },
-          { qWord: "get over barriers", pWord: "overcoming barriers", note: "Vượt qua rào cản" },
-          { qWord: "focus on individual", pWord: "personal development", note: "Phát triển cá nhân" }
-        ],
-        vocab: [{ word: "obstacle", type: "n", ipa: "/ˈɒb.stə.kəl/", def: "Vật cản", ex: "Jump over obstacles.", viEx: "Nhảy qua chướng ngại vật." }]
-      },
-      {
-        id: 8,
-        part: "03. DẠNG BÀI TRUE/FALSE/NOT GIVEN",
-        title: "Activity 8: UNUSUAL SPORTS (TFNG)",
-        instruction: "Write TRUE, FALSE or NOT GIVEN.",
-        passage: [
-          { en: "Bossaball is played on an inflatable pitch. Buzkashi hopes to get Olympic status. Kabaddi is similar in some ways to tag. First chess boxing championship in 2003 was won by a Dutchman, Iepe Rubingh. Roshambo is taken so seriously with world championships.", vi: "Bossaball chơi trên sân bơm hơi..." }
-        ],
-        questions: [
-          { q: "1. People play bossaball on a soft surface.", ans: ["true"], loc: "inflatable pitch -> soft surface", exp: "TRUE: Sân bơm hơi là mặt đệm mềm." },
-          { q: "2. Buzkashi is an Olympic sport.", ans: ["false"], loc: "hopes to get Olympic status", exp: "FALSE: Chưa được vào Olympic." },
-          { q: "3. Kabaddi is often played in schools.", ans: ["not given"], loc: "Chỉ so với trò tag trẻ con chơi.", exp: "NOT GIVEN: Không khẳng định hay chơi ở trường." },
-          { q: "4. Iepe Rubingh invented chess boxing.", ans: ["not given"], loc: "Chỉ nêu anh thắng giải năm 2003.", exp: "NOT GIVEN: Không nói ai phát minh." },
-          { q: "5. Iepe Rubingh is from Germany.", ans: ["false"], loc: "Dutchman -> người Hà Lan", exp: "FALSE: Người Hà Lan, không phải Đức." },
-          { q: "6. People consider roshambo a serious sport.", ans: ["true"], loc: "taken so seriously", exp: "TRUE: Được coi trọng tổ chức giải nghiêm túc." }
-        ],
-        paraphraseTable: [
-          { qWord: "soft surface", pWord: "inflatable pitch", note: "Bề mặt mềm / sân bơm hơi" },
-          { qWord: "Olympic sport", pWord: "get Olympic status", note: "Môn thể thao Olympic" },
-          { qWord: "from Germany", pWord: "a Dutchman", note: "Quốc tịch Đức / người Hà Lan" }
-        ],
-        vocab: [{ word: "inflatable", type: "adj", ipa: "/ɪnˈfleɪ.tə.bəl/", def: "Bơm hơi", ex: "Inflatable mattress.", viEx: "Đệm hơi." }]
-      },
-      {
-        id: 9,
-        part: "03. DẠNG BÀI TRUE/FALSE/NOT GIVEN",
-        title: "Activity 9: Parkour (TFNG)",
-        instruction: "Write TRUE, FALSE or NOT GIVEN.",
-        passage: [
-          { en: "No limits on how you move. Developed in France in the 1980s (20th century). Yamakasi: members had to arrive on time. Raymond Belle: always take the more difficult road. The founder refused to teach moves. Freerunning and parkour have more similarities than differences.", vi: "Parkour ra đời thập niên 1980 ở Pháp..." }
-        ],
-        questions: [
-          { q: "1. You have to use a limited number of moves in parkour.", ans: ["false"], loc: "No limits on how you move", exp: "FALSE: Không có giới hạn." },
-          { q: "2. Parkour is mainly done in the countryside.", ans: ["not given"], loc: "Không đề cập miền quê.", exp: "NOT GIVEN: Không có thông tin." },
-          { q: "3. Parkour began in the twentieth century.", ans: ["true"], loc: "1980s -> 20th century", exp: "TRUE: Năm 1980 thuộc thế kỷ 20." },
-          { q: "4. The Yamakasi did not allow latecomers.", ans: ["true"], loc: "had to arrive on time", exp: "TRUE: Cấm đi trễ." },
-          { q: "5. Raymond Belle recommends you always choose easier route.", ans: ["false"], loc: "always take the more difficult one", exp: "FALSE: Khuyên chọn đường khó." },
-          { q: "6. There are many gyms in France where you can do parkour.", ans: ["not given"], loc: "Chỉ nói chung chung some gyms.", exp: "NOT GIVEN: Không rõ số lượng tại Pháp." },
-          { q: "7. The founder was a very good teacher.", ans: ["not given"], loc: "refused to teach", exp: "NOT GIVEN: Từ chối dạy, không xét năng lực dạy." },
-          { q: "8. Freerunning and parkour are similar.", ans: ["true"], loc: "more similarities than differences", exp: "TRUE: Rất tương đồng." }
-        ],
-        paraphraseTable: [
-          { qWord: "limited number of moves", pWord: "no limits on how you move", note: "Giới hạn / không hạn chế cử động" },
-          { qWord: "did not allow latecomers", pWord: "had to arrive on time", note: "Cấm trễ / phải đến đúng giờ" },
-          { qWord: "choose easier route", pWord: "take the more difficult one", note: "Chọn đường dễ / đi lối khó" },
-          { qWord: "are similar", pWord: "more similarities than differences", note: "Tương đồng nhau" }
-        ],
-        vocab: [{ word: "humility", type: "n", ipa: "/hjuːˈmɪl.ə.ti/", def: "Sự khiêm tốn", ex: "Practice humility.", viEx: "Rèn luyện đức khiêm nhường." }]
-      },
-      {
-        id: 10,
-        part: "03. DẠNG BÀI TRUE/FALSE/NOT GIVEN",
-        title: "Activity 10: BECOME RICH AND FAMOUS",
-        instruction: "Write YES, NO or NOT GIVEN.",
-        passage: [
-          { en: "In the past you needed talent. Creating your own blog is possibly the best way to become internet famous. Facebook won't last for fame. Learning vines helps achieve fame.", vi: "Xưa kia cần tài năng để nổi tiếng..." }
-        ],
-        questions: [
-          { q: "1. Before internet you didn't need special skills to become famous.", ans: ["no"], loc: "needed a talent", exp: "NO: Xưa kia bắt buộc phải có tài năng." },
-          { q: "2. If you choose specialist subject, more likely to get known.", ans: ["not given"], loc: "Chỉ là một gợi ý.", exp: "NOT GIVEN: Không so sánh tỷ lệ nổi tiếng." },
-          { q: "3. Having own blog is an excellent way to find fame.", ans: ["yes"], loc: "blog is the best way", exp: "YES: Blog là kênh tuyệt vời nhất." },
-          { q: "4. You can get famous easily through Facebook.", ans: ["no"], loc: "not for those who want to be famous", exp: "NO: Facebook không dễ để nổi danh." },
-          { q: "5. It is not worth the effort to get famous through Twitter.", ans: ["not given"], loc: "Không có nhận định này.", exp: "NOT GIVEN: Tác giả không nói không đáng công." },
-          { q: "6. Learning to make 'vines' could help you become famous.", ans: ["yes"], loc: "Learn to create vines... achieve fame", exp: "YES: Làm vine giúp đạt danh tiếng." }
-        ],
-        paraphraseTable: [
-          { qWord: "special skills", pWord: "a talent", note: "Kỹ năng đặc biệt / tài năng" },
-          { qWord: "excellent way", pWord: "the best way", note: "Phương thức xuất sắc / tốt nhất" },
-          { qWord: "get famous easily", pWord: "not for those who want to be famous", note: "Dễ nổi tiếng" }
-        ],
-        vocab: [{ word: "trending", type: "adj", ipa: "/ˈtren.dɪŋ/", def: "Thịnh hành", ex: "Trending topics.", viEx: "Chủ đề xu hướng." }]
-      },
-      {
-        id: 11,
-        part: "03. DẠNG BÀI TRUE/FALSE/NOT GIVEN",
-        title: "Activity 11: Famous animals (YES/NO/NG)",
-        instruction: "Write YES, NO or NOT GIVEN.",
-        passage: [
-          { en: "Animals have personality and talents. Ueno died suddenly. Railway staff gradually gave treats. Knut suffered without mother and contact. Born Free does important work. Humans benefit from fame, not animals.", vi: "Động vật có cá tính riêng. Hachiko đợi chủ mất đột ngột..." }
-        ],
-        questions: [
-          { q: "8. All animals are very much the same.", ans: ["no"], loc: "each have own personality", exp: "NO: Mỗi con một tính cách riêng." },
-          { q: "9. There are many reasons why animals are remembered.", ans: ["yes"], loc: "Some through films... work...", exp: "YES: Rất nhiều lý do." },
-          { q: "10. Ueno died after a long illness.", ans: ["no"], loc: "died suddenly", exp: "NO: Mất đột ngột." },
-          { q: "11. After some time, railway staff were kind to Hachiko.", ans: ["yes"], loc: "gradually people gave food", exp: "YES: Dần dần mọi người đối tốt." },
-          { q: "12. Songs written about Knut were very popular.", ans: ["not given"], loc: "Chỉ nói có bài hát.", exp: "NOT GIVEN: Không nói bài hát có nổi không." },
-          { q: "13. Knut had a happy life because of fame.", ans: ["no"], loc: "suffered in short life", exp: "NO: Knut sống buồn bã khổ sở." },
-          { q: "14. The Adamsons made money from Elsa.", ans: ["not given"], loc: "Không đề cập thu lợi.", exp: "NOT GIVEN: Không có thông tin." },
-          { q: "15. Born Free Foundation does useful work.", ans: ["yes"], loc: "important work includes...", exp: "YES: Làm nhiều việc thiết thực." },
-          { q: "16. Famous animals get many advantages from fame.", ans: ["no"], loc: "humans benefit, not animals", exp: "NO: Động vật không hưởng lợi." }
-        ],
-        paraphraseTable: [
-          { qWord: "very much the same", pWord: "each have own personality", note: "Rất giống nhau / cá tính riêng" },
-          { qWord: "died after long illness", pWord: "died suddenly", note: "Mất sau bệnh dài / mất đột ngột" },
-          { qWord: "were kind to", pWord: "gave food and treats", note: "Đối đãi tử tế / cho ăn thức ngon" },
-          { qWord: "useful work", pWord: "important work", note: "Công việc hữu ích, quan trọng" },
-          { qWord: "get many advantages", pWord: "benefit from that fame", note: "Thu lợi / hưởng ưu thế" }
-        ],
-        vocab: [{ word: "commemorate", type: "v", ipa: "/kəˈmem.ə.reɪt/", def: "Tưởng niệm", ex: "Commemorate heroes.", viEx: "Tưởng niệm các anh hùng." }]
-      },
-      {
-        id: 12,
-        part: "04. DẠNG BÀI SHORT ANSWER QUESTIONS",
-        title: "Activity 12: SOCIAL MEDIA & FRIENDSHIP",
-        instruction: "Choose NO MORE THAN THREE WORDS from the passage for each answer.",
-        passage: [
-          { en: "Social media has helped expand friendships. People are geographically mobile nowadays. Workers have less security at work making it harder to build relations. Young children choose friends because of convenience. Friends reduce mental health problems.", vi: "Mạng xã hội giúp mở rộng kết bạn. Người ta dịch chuyển địa lý nhiều hơn..." }
-        ],
-        questions: [
-          { q: "1. What has enabled people to have more friends than in the past?", ans: ["social media"], loc: "social media has helped us expand", exp: "Mạng xã hội ('social media')." },
-          { q: "2. What phrase describes people who don't stay in the same place?", ans: ["geographically mobile"], loc: "more geographically mobile nowadays", exp: "'geographically mobile'." },
-          { q: "3. What work-related problem makes them less likely to form friendships?", ans: ["less security"], loc: "less security at work", exp: "Sự bấp bênh ('less security')." },
-          { q: "4. What frequently influences friendships of young children?", ans: ["convenience"], loc: "because of convenience", exp: "Sự tiện lợi ('convenience')." },
-          { q: "5. What are people with friends less likely to suffer from?", ans: ["mental health problems"], loc: "fewer mental health problems", exp: "Bệnh tâm thần ('mental health problems')." }
-        ],
-        paraphraseTable: [
-          { qWord: "enabled to have more friends", pWord: "helped expand friendships", note: "Giúp kết thêm nhiều bạn bè" },
-          { qWord: "don't stay in the same place", pWord: "geographically mobile", note: "Di chuyển liên tục / linh hoạt địa lý" },
-          { qWord: "influences friendships", pWord: "choose friends because of", note: "Ảnh hưởng tới việc chọn bạn" },
-          { qWord: "less likely to suffer from", pWord: "have fewer problems", note: "Ít nguy cơ mắc phải" }
-        ],
-        vocab: [{ word: "convenience", type: "n", ipa: "/kənˈviː.ni.əns/", def: "Sự thuận tiện", ex: "For convenience.", viEx: "Vì sự tiện lợi." }]
-      },
-      {
-        id: 13,
-        part: "05. DẠNG BÀI MATCHING SENTENCE ENDINGS",
-        title: "Activity 13: OUR FRIENDS AND PROTECTORS",
-        instruction: "Complete each sentence with correct ending (a-h).",
-        passage: [
-          { en: "Dolphins understand humans are similar. Shark attacked Hardy Jones -> drove shark away. Swimmer left ring because he had not seen shark. Dolphin nudged Trevino to encourage him. We should protect them.", vi: "Cá heo nhận thấy con người tương đồng..." }
-        ],
-        questions: [
-          { q: "1. Dolphins may protect humans _______", ans: ["d"], loc: "humans are similar to them -> d", exp: "1 - d: Vì thấy con người giống chúng." },
-          { q: "2. Dolphins swam towards Hardy Jones _______", ans: ["g"], loc: "shark ready to attack -> g", exp: "2 - g: Vì cá mập sắp tấn công ông." },
-          { q: "3. Swimmer tried to leave protective ring _______", ans: ["f"], loc: "had not yet seen shark -> f", exp: "3 - f: Vì chưa thấy cá mập." },
-          { q: "4. A dolphin nudged Joey Trevino _______", ans: ["b"], loc: "pushed as if say don't give up -> b", exp: "4 - b: Động viên đừng nản lòng." },
-          { q: "5. Dolphins and whales help us _______", ans: ["a"], loc: "reason for us to protect them -> a", exp: "5 - a: Nên chúng ta cần bảo vệ chúng." }
-        ],
-        paraphraseTable: [
-          { qWord: "recognise that humans are similar", pWord: "understand humans are similar", note: "Nhận thức con người tương đồng" },
-          { qWord: "nudged", pWord: "gently pushed", note: "Huých nhẹ / đẩy khẽ" },
-          { qWord: "not lose hope", pWord: "don't give up", note: "Không đánh mất hy vọng / đừng từ bỏ" }
-        ],
-        vocab: [{ word: "nudge", type: "v", ipa: "/nʌdʒ/", def: "Huých nhẹ", ex: "Nudged gently.", viEx: "Huých nhẹ." }]
-      },
-      {
-        id: 14,
-        part: "05. DẠNG BÀI MATCHING SENTENCE ENDINGS",
-        title: "Activity 14: THE MODERN ZOO",
-        instruction: "Complete each sentence with correct ending A-H.",
-        passage: [
-          { en: "Early zoo belonged to royalty (private collection). WAZA educates and coordinates. Borneo rescues orangutans to return to wild. Colchester has several species together. Indianapolis has functional forest.", vi: "Sở thú hoàng gia là bộ sưu tập cá nhân..." }
-        ],
-        questions: [
-          { q: "7. The first zoo _______", ans: ["h"], loc: "belonged to royalty -> H", exp: "7 - H: Bộ sưu tập cá nhân hoàng tộc." },
-          { q: "8. WAZA _______", ans: ["g"], loc: "educates and coordinates -> G", exp: "8 - G: Giáo dục và kết nối vườn thú." },
-          { q: "9. Borneo Orangutan Rescue _______", ans: ["d"], loc: "teaches orangutans live in wild -> D", exp: "9 - D: Tập thả đười ươi về tự nhiên." },
-          { q: "10. Colchester Zoo _______", ans: ["e"], loc: "several species together -> E", exp: "10 - E: Không tách biệt các loài thú." },
-          { q: "11. Indianapolis Zoo _______", ans: ["a"], loc: "functional forest like Indonesia -> A", exp: "11 - A: Tái hiện sinh cảnh rừng." }
-        ],
-        paraphraseTable: [
-          { qWord: "private collection", pWord: "belonged to royalty", note: "Bộ sưu tập tư nhân của hoàng gia" },
-          { qWord: "not always separate", pWord: "several species live together", note: "Không chia tách / sống cùng nhau" },
-          { qWord: "copies natural habitat", pWord: "functional forest", note: "Tái hiện môi trường tự nhiên" }
-        ],
-        vocab: [{ word: "reintroduce", type: "v", ipa: "/ˌriː.ɪn.trəˈdʒuːs/", def: "Tái thả tự nhiên", ex: "Reintroduce animals.", viEx: "Tái thả động vật." }]
-      },
-      {
-        id: 15,
-        part: "06. DẠNG BÀI MATCHING FEATURES",
-        title: "Activity 15: FAMOUS ANIMALS (Matching)",
-        instruction: "Choose animal [A Hachiko, B Knut, C Elsa].",
-        passage: [
-          { en: "Hachiko waited 10 years, ceremony held every year. Knut made 5 million euros, had toys, suffered without mother. Elsa lived in wild, Born Free started in memory.", vi: "Hachiko trung thành, Knut kiếm nhiều tiền..." }
-        ],
-        questions: [
-          { q: "1. Which animal never forgot human friend?", ans: ["a"], loc: "Hachiko waited until death", exp: "1 - A: Hachiko trung thành không quên chủ." },
-          { q: "2. Lived part of life in wild?", ans: ["c"], loc: "Elsa adult life in wild", exp: "2 - C: Elsa sống ngoài tự nhiên." },
-          { q: "3. Made large profits for humans?", ans: ["b"], loc: "Knut 5 million euros revenue", exp: "3 - B: Knut đem lại lợi nhuận khổng lồ." },
-          { q: "4. Was not wanted by parent?", ans: ["b"], loc: "Knut rejected by mother", exp: "4 - B: Knut bị mẹ chối bỏ." },
-          { q: "5. Has had valuable work done in memory?", ans: ["c"], loc: "Elsa Born Free Foundation", exp: "5 - C: Elsa truyền cảm hứng lập quỹ." },
-          { q: "6. Formally remembered at regular times?", ans: ["a"], loc: "Hachiko yearly ceremony", exp: "6 - A: Hachiko có lễ tưởng niệm hàng năm." },
-          { q: "7. Had souvenirs of them made?", ans: ["b"], loc: "Knut toys and candy", exp: "7 - B: Đồ lưu niệm hình Knut." }
-        ],
-        paraphraseTable: [
-          { qWord: "never forgot human friend", pWord: "waited faithfully until death", note: "Không bao giờ quên người bạn" },
-          { qWord: "made large profits", pWord: "increased revenue by 5 million", note: "Tạo lợi nhuận lớn" },
-          { qWord: "not wanted by parent", pWord: "rejected by mother", note: "Bị mẹ đẻ chối bỏ" },
-          { qWord: "formally remembered", pWord: "ceremony to commemorate", note: "Lễ kỷ niệm chính thức" },
-          { qWord: "souvenirs made", pWord: "selling toys and products", note: "Bán đồ lưu niệm" }
-        ],
-        vocab: [{ word: "substantial", type: "adj", ipa: "/səbˈstæn.ʃəl/", def: "Đáng kể", ex: "Substantial profits.", viEx: "Lợi nhuận đáng kể." }]
-      },
-      {
-        id: 16,
-        part: "07. DẠNG BÀI MATCHING PARAGRAPH INFORMATION",
-        title: "Activity 16: FOOD TV",
-        instruction: "Which paragraphs contain the information? Write A-G.",
-        passage: [
-          { en: "A: 343.5 hours food TV. B: Julia Child wrote cookbook first. D: Two biker pairs. E: Cooking TV is entertainment (Masterchef). F: Studies show people cook less, Jamie Oliver 15 min meals most influential. G: Teaching children to cook.", vi: "A nói về giờ phát sóng..." }
-        ],
-        questions: [
-          { q: "1. The cooking show that affects people most", ans: ["f"], loc: "Paragraph F (Jamie Oliver most influential)", exp: "1 - F." },
-          { q: "2. A TV chef who was first famous as an author", ans: ["b"], loc: "Paragraph B (Julia Child published recipes first)", exp: "2 - B." },
-          { q: "3. The number of food shows on TV", ans: ["a"], loc: "Paragraph A (343.5 hours)", exp: "3 - A." },
-          { q: "4. Cookery shows for enjoyment rather than learning", ans: ["e"], loc: "Paragraph E (entertainment than education)", exp: "4 - E." },
-          { q: "5. Why children should be taught to cook", ans: ["g"], loc: "Paragraph G (teaching children)", exp: "5 - G." },
-          { q: "6. Research about amount of time people cook", ans: ["f"], loc: "Paragraph F (spend less time cooking)", exp: "6 - F." },
-          { q: "7. Examples of famous cookery partners", ans: ["d"], loc: "Paragraph D (pairs of chefs on motorbikes)", exp: "7 - D." }
-        ],
-        paraphraseTable: [
-          { qWord: "affects people most", pWord: "most influential show", note: "Có sức ảnh hưởng nhất" },
-          { qWord: "famous as an author", pWord: "published recipes, instant success", note: "Nổi tiếng nhờ xuất bản sách" },
-          { qWord: "enjoyment rather than learning", pWord: "entertainment than education", note: "Giải trí hơn là giáo dục" }
-        ],
-        vocab: [{ word: "influential", type: "adj", ipa: "/ˌɪn.fluˈen.ʃəl/", def: "Có tầm ảnh hưởng", ex: "Influential show.", viEx: "Chương trình có tầm ảnh hưởng." }]
-      },
-      {
-        id: 17,
-        part: "08. DẠNG BÀI MATCHING HEADINGS",
-        title: "Activity 17: MARKETS AROUND THE WORLD",
-        instruction: "Choose heading for B-F: [i Local craft, ii Cheap countryside food, iv New style at bargain, vi Winter gifts, vii Sell what you don't need]",
-        passage: [
-          { en: "B: Cheapest freshest food from farmers. C: Clothes to create unique look at bargain prices. D: Flea market where you sell unwanted items. E: Tourist market with handicrafts and souvenirs. F: Christmas winter seasonal market.", vi: "B bán thực phẩm quê rẻ. C thời trang giá hời..." }
-        ],
-        questions: [
-          { q: "1. Heading for Paragraph B", ans: ["ii"], loc: "Paragraph B: freshest food from farmers -> ii", exp: "B -> ii (Thực phẩm rẻ từ quê)." },
-          { q: "2. Heading for Paragraph C", ans: ["iv"], loc: "Paragraph C: unique look at bargain -> iv", exp: "C -> iv (Phong cách mới giá hời)." },
-          { q: "3. Heading for Paragraph D", ans: ["vii"], loc: "Paragraph D: sell unwanted items -> vii", exp: "D -> vii (Bán đồ không dùng)." },
-          { q: "4. Heading for Paragraph E", ans: ["i"], loc: "Paragraph E: souvenirs, handicrafts -> i", exp: "E -> i (Đồ thủ công mua về)." },
-          { q: "5. Heading for Paragraph F", ans: ["vi"], loc: "Paragraph F: Christmas gifts -> vi", exp: "F -> vi (Quà cho lễ hội mùa đông)." }
-        ],
-        paraphraseTable: [
-          { qWord: "things to eat straight from countryside", pWord: "farmers sell direct, freshest food", note: "Đồ ăn tươi trực tiếp từ nông dân" },
-          { qWord: "new style at bargain prices", pWord: "unique look, bargain price", note: "Phong cách mới lạ với giá hời" },
-          { qWord: "sell what you don't need", pWord: "sell unwanted items", note: "Bán đồ không còn cần dùng" },
-          { qWord: "gifts for winter celebrations", pWord: "Christmas gifts for festive season", note: "Quà tặng lễ hội mùa đông" }
-        ],
-        vocab: [{ word: "bargain", type: "n", ipa: "/ˈbɑː.ɡɪn/", def: "Món hời", ex: "Bought at a bargain.", viEx: "Mua được giá hời." }]
-      },
-      {
-        id: 18,
-        part: "09. DẠNG BÀI MULTIPLE CHOICE",
-        title: "Activity 18: EDUCATION & WORKPLACE",
-        instruction: "Read and answer multiple choice questions.",
-        passage: [
-          { en: "Apprenticeships were common in past. 1944 education system did not produce good results. Blended learning convenient for working people as they don't miss work. Challenges: finding teachers to teach at different times.", vi: "Học nghề từng phổ biến trong quá khứ..." }
-        ],
-        questions: [
-          { q: "1. Apprenticeships: A new, B common in past, C only past, D did not help.", ans: ["b"], loc: "common way in the past -> B", exp: "1 - B: Từng phổ biến trong quá khứ." },
-          { q: "2. Education system 1944: A only 0.5%, B only technical, C not a great success, D gifted.", ans: ["c"], loc: "did not produce good results -> C", exp: "2 - C: Không thành công lớn." },
-          { q: "3. Blended learning: A retired, B face to face, C nursing, D convenient for working people.", ans: ["d"], loc: "don't miss work -> D", exp: "3 - D: Thuận tiện cho người đi làm." },
-          { q: "4. Challenges: A practical issues like class times, B inexperienced students, C acceptable, D computer.", ans: ["a"], loc: "different places and times -> A", exp: "4 - A: Vấn đề thực tế như giờ học." }
-        ],
-        paraphraseTable: [
-          { qWord: "were common in the past", pWord: "a common way of learning in the past", note: "Từng rất phổ biến trong quá khứ" },
-          { qWord: "was not a great success", pWord: "did not produce good results", note: "Không đem lại kết quả tốt" },
-          { qWord: "convenient for working people", pWord: "don't have to miss work to go to classes", note: "Tiện lợi cho người đang đi làm" },
-          { qWord: "practical issues like when classes held", pWord: "different places and at different times", note: "Thời gian và địa điểm tổ chức" }
-        ],
-        vocab: [{ word: "apprenticeship", type: "n", ipa: "/əˈpren.tɪs.ʃɪp/", def: "Học nghề", ex: "Serve an apprenticeship.", viEx: "Thời gian học việc." }]
       }
     ];
 
-    let currentActIndex = 0; // Mặc định mở Activity 1
+    let currentActIndex = 0;
     let isTranslated = false;
     let isPlaying = false;
     let synth = window.speechSynthesis;
     let utterance = null;
     let savedRange = null;
+
+    // Phát âm chuẩn AmE
+    function speakWord(text) {
+      if (!synth) {
+        alert("Trình duyệt không hỗ trợ phát âm!");
+        return;
+      }
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = 0.9;
+      synth.speak(u);
+    }
 
     function initSidebar() {
       const menuContainer = document.getElementById('activity-menu');
@@ -843,7 +541,7 @@
       vContainer.innerHTML = `
         <div class="flex items-center justify-between mb-1.5">
           <h3 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
-            <i class="fa-solid fa-spell-check text-indigo-600"></i> Từ Vựng Cốt Lõi
+            <i class="fa-solid fa-spell-check text-indigo-600"></i> Từ Vựng Cốt Lõi (Phát Âm Chuẩn AmE)
           </h3>
           <span class="text-[10px] bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded font-medium">${act.vocab ? act.vocab.length : 0} từ</span>
         </div>
@@ -852,14 +550,23 @@
       if (act.vocab && act.vocab.length > 0) {
         act.vocab.forEach(v => {
           const vBox = document.createElement('div');
-          vBox.className = "p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs space-y-0.5";
+          vBox.className = "p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs space-y-1";
+          
+          const safeWord = v.word.replace(/'/g, "\\'");
+
           vBox.innerHTML = `
             <div class="flex items-center justify-between">
-              <span class="font-bold text-indigo-900">${v.word}</span>
-              <span class="text-[10px] bg-slate-200 text-slate-700 px-1 py-0.5 rounded font-mono">${v.type}${v.ipa}</span>
+              <div class="flex items-center gap-1.5">
+                <span class="font-bold text-indigo-900 text-sm">${v.word}</span>
+                <button onclick="speakWord('${safeWord}')" class="w-6 h-6 rounded-full bg-indigo-100 hover:bg-indigo-200 active:bg-indigo-300 text-indigo-700 flex items-center justify-center transition shadow-xs" title="Bấm để nghe phát âm AmE">
+                  <i class="fa-solid fa-volume-high text-[11px]"></i>
+                </button>
+              </div>
+              <span class="text-[10px] bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded font-mono font-medium">${v.type} \vert{} AmE:${v.ipa}</span>
             </div>
             <p class="text-slate-700"><span class="font-semibold text-slate-900">Nghĩa:</span> ${v.def}</p>
-            <p class="text-slate-500 italic">"${v.ex}" (${v.viEx})</p>
+            <p class="text-slate-500 italic">"${v.ex}"</p>
+            <p class="text-slate-500 text-[11px]">→ ${v.viEx}</p>
           `;
           vContainer.appendChild(vBox);
         });
@@ -912,15 +619,16 @@
       document.getElementById('trans-btn-text').textContent = isTranslated ? "Ẩn Dịch" : "Bản Dịch";
     }
 
-    // ==========================================
-    // CƠ CHẾ HIGHLIGHT HAI CỘT ĐỘC LẬP
-    // ==========================================
+    // ==============================================================
+    // CƠ CHẾ HIGHLIGHT BẮT ĐỒNG THỜI CHUỘT VÀ CẢM ỨNG IPAD (TOUCHEND)
+    // ==============================================================
     const leftSection = document.getElementById('left-column-section');
     const rightSection = document.getElementById('right-column-section');
     const leftHlToolbar = document.getElementById('left-hl-toolbar');
     const rightHlToolbar = document.getElementById('right-hl-toolbar');
 
-    document.addEventListener('mouseup', function (e) {
+    function handleTextSelection(e) {
+      // Bỏ qua nếu bấm vào chính thanh công cụ highlight
       if (leftHlToolbar.contains(e.target) || rightHlToolbar.contains(e.target)) return;
 
       const sel = window.getSelection();
@@ -940,7 +648,7 @@
           return;
         }
 
-        // Bôi đen ở cột phải (câu hỏi, bỏ qua ô nhập text)
+        // Bôi đen ở cột phải (câu hỏi, bỏ qua ô input đang nhập liệu)
         if (rightSection.contains(container) && e.target.tagName !== 'INPUT') {
           hideToolbars();
           savedRange = range.cloneRange();
@@ -953,6 +661,25 @@
         }
       }
       hideToolbars();
+    }
+
+    // Bắt đồng thời cả chuột và chạm cảm ứng trên iPad
+    document.addEventListener('mouseup', handleTextSelection);
+    document.addEventListener('touchend', function(e) {
+      // Đợi Safari iOS hoàn thành cập nhật vùng chọn trước khi định vị
+      setTimeout(() => handleTextSelection(e), 60);
+    });
+
+    // Luôn ghi nhớ range khi vùng chọn thay đổi trên thiết bị cảm ứng
+    document.addEventListener('selectionchange', function() {
+      const sel = window.getSelection();
+      if (!sel.isCollapsed && sel.rangeCount > 0) {
+        const range = sel.getRangeAt(0);
+        const container = range.commonAncestorContainer;
+        if (leftSection.contains(container) || rightSection.contains(container)) {
+          savedRange = range.cloneRange();
+        }
+      }
     });
 
     function hideToolbars() {
@@ -974,7 +701,7 @@
         span.appendChild(targetRange.extractContents());
         targetRange.insertNode(span);
       } catch (err) {
-        console.warn("Highlight range cross elements:", err);
+        console.warn("Lỗi highlight vùng chọn phức tạp:", err);
       }
 
       window.getSelection().removeAllRanges();
@@ -1031,7 +758,7 @@
       hideToolbars();
     }
 
-    // TTS AI Reader
+    // TTS AI Reader cho bài đọc
     function toggleAudio() {
       if (!synth) {
         alert("Trình duyệt không hỗ trợ Web Speech AI!");
